@@ -54,18 +54,28 @@ echo " - - - MYSQL_PORT:          $MYSQL_PORT"
 echo " - - - SERVER_WEB_PORT:     $SERVER_WEB_PORT"
 echo " - - - RABBIT_MQ_D_PORT:    $RABBIT_MQ_D_PORT"
 echo " - - - RABBIT_MQ_M_PORT:    $RABBIT_MQ_M_PORT"
-echo " - - - INFLUX_DB_PORT:    $INFLUX_DB_PORT"
+echo " - - - INFLUX_DB_PORT:      $INFLUX_DB_PORT"
 echo ""
 
 echo " - Updating docker-compose.yml"
+
+# Setting params for MongoDB container
 sed -i "s/_MONGO_DB_NAME_/$MONGO_DB_CONTAINER_NAME/g" docker-compose.yml
 sed -i "s/_MONGO_DB_PORT_/$MONGO_DB_PORT/g" docker-compose.yml
+
+# Setting params for MySQL/MariaDB container
 sed -i "s/_MYSQL_DB_NAME_/$MYSQL_DB_CONTAINER_NAME/g" docker-compose.yml
 sed -i "s/_MYSQL_DB_PORT_/$MYSQL_PORT/g" docker-compose.yml
+
+# Setting params for RabbitMQ container
 sed -i "s/_RABBIT_MQ_NAME_/$RABBIT_MQ_CONTAINER_NAME/g" docker-compose.yml
 sed -i "s/_RABBIT_MQ_D_PORT_/$RABBIT_MQ_D_PORT/g" docker-compose.yml
 sed -i "s/_RABBIT_MQ_M_PORT_/$RABBIT_MQ_M_PORT/g" docker-compose.yml
+
+# Setting params for InfluxDB container
+sed -i "s/_INFLUX_DB_NAME_/$INFLUX_DB_CONTAINER_NAME/g" docker-compose.yml
 sed -i "s/_INFLUX_DB_PORT_/$INFLUX_DB_PORT/g" docker-compose.yml
+
 echo ""
 
 printHeader "Resulting docker-compose.yml (start)"
