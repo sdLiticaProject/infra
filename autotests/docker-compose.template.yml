@@ -23,11 +23,15 @@ services:
 
   rabbitmq-_RABBIT_MQ_NAME_:
     image: 'rabbitmq:3.6-management-alpine'
+    container_name: _RABBIT_MQ_NAME_
+    restart: always
     ports:
       - _RABBIT_MQ_D_PORT_:5672
       - _RABBIT_MQ_M_PORT_:15672
 
   influxdb-_INFLUX_DB_NAME_:
     image: 'influxdb:1.7.10-alpine'
+    container_name: _INFLUX_DB_NAME_
+    restart: always
     ports:
       - _INFLUX_DB_PORT_:8086
