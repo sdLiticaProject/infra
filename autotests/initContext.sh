@@ -6,7 +6,11 @@ WORKSPACE_PATH="$2/fileStore"
 PATH_TO_SRC_ROOT=$3
 
 MONGO_DB_CONTAINER_NAME="mongodb_$CONTEXT_SUFFIX"
+MONGO_USER="root"
+MONGO_PASSWORD="autotestPassword"
 MYSQL_DB_CONTAINER_NAME="mysql_$CONTEXT_SUFFIX"
+MYSQL_USER="root"
+MYSQL_PASSWORD="autotestPassword"
 RABBIT_MQ_CONTAINER_NAME="rabbitmq_$CONTEXT_SUFFIX"
 INFLUX_DB_CONTAINER_NAME="influxdb_$CONTEXT_SUFFIX"
 
@@ -62,10 +66,13 @@ echo " - Updating docker-compose.yml"
 # Setting params for MongoDB container
 sed -i "s/_MONGO_DB_NAME_/$MONGO_DB_CONTAINER_NAME/g" docker-compose.yml
 sed -i "s/_MONGO_DB_PORT_/$MONGO_DB_PORT/g" docker-compose.yml
+sed -i "s/_MONGO_USER_/$MONGO_USER" docker-compose.yml
+sed -i "s/_MONGO_PASSWORD_/$MONGO_PASSWORD" docker-compose.yml
 
 # Setting params for MySQL/MariaDB container
 sed -i "s/_MYSQL_DB_NAME_/$MYSQL_DB_CONTAINER_NAME/g" docker-compose.yml
 sed -i "s/_MYSQL_DB_PORT_/$MYSQL_PORT/g" docker-compose.yml
+sed -i "s/_MYSQL_PASSWORD_/$MYSQL_PASSWORD" docker-compose.yml
 
 # Setting params for RabbitMQ container
 sed -i "s/_RABBIT_MQ_NAME_/$RABBIT_MQ_CONTAINER_NAME/g" docker-compose.yml

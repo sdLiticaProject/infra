@@ -6,8 +6,8 @@ services:
     restart: always
     container_name: _MONGO_DB_NAME_
     environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: autotestPassword
+      MONGO_INITDB_ROOT_USERNAME: _MONGO_USER_
+      MONGO_INITDB_ROOT_PASSWORD: _MONGO_PASSWORD_
     ports:
       - _MONGO_DB_PORT_:27017
 
@@ -17,7 +17,7 @@ services:
     restart: always
     container_name: _MYSQL_DB_NAME_
     environment:
-      MYSQL_ROOT_PASSWORD: autotestPassword
+      MYSQL_ROOT_PASSWORD: _MYSQL_PASSWORD_
     ports:
       - _MYSQL_DB_PORT_:3306
 
