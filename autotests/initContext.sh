@@ -6,11 +6,11 @@ WORKSPACE_PATH="$2/fileStore"
 PATH_TO_SRC_ROOT=$3
 
 MONGO_DB_CONTAINER_NAME="mongodb_$CONTEXT_SUFFIX"
-MONGO_USER="root"
-MONGO_PASSWORD="autotestPassword"
+MONGO_DB_USER="root"
+MONGO_DB_PASSWORD="autotestPassword"
 MYSQL_DB_CONTAINER_NAME="mysql_$CONTEXT_SUFFIX"
-MYSQL_USER="root"
-MYSQL_PASSWORD="autotestPassword"
+MYSQL_DB_USER="root"
+MYSQL_DB_PASSWORD="autotestPassword"
 RABBIT_MQ_CONTAINER_NAME="rabbitmq_$CONTEXT_SUFFIX"
 INFLUX_DB_CONTAINER_NAME="influxdb_$CONTEXT_SUFFIX"
 
@@ -46,7 +46,7 @@ echo ""
 
 echo " - Generating porst to be used.."
 MONGO_DB_PORT=`getFreeRandomPort`
-MYSQL_PORT=`getFreeRandomPort`
+MYSQL_DB_PORT=`getFreeRandomPort`
 SERVER_WEB_PORT=`getFreeRandomPort`
 SERVER_WEB_API_PORT=`getFreeRandomPort`
 RABBIT_MQ_D_PORT=`getFreeRandomPort`
@@ -66,13 +66,13 @@ echo " - Updating docker-compose.yml"
 # Setting params for MongoDB container
 sed -i "s/_MONGO_DB_NAME_/$MONGO_DB_CONTAINER_NAME/g" docker-compose.yml
 sed -i "s/_MONGO_DB_PORT_/$MONGO_DB_PORT/g" docker-compose.yml
-sed -i "s/_MONGO_USER_/$MONGO_USER" docker-compose.yml
-sed -i "s/_MONGO_PASSWORD_/$MONGO_PASSWORD" docker-compose.yml
+sed -i "s/_MONGO_DB_USER_/$MONGO_DB_USER" docker-compose.yml
+sed -i "s/_MONGO_DB_PASSWORD_/$MONGO_DB_PASSWORD" docker-compose.yml
 
 # Setting params for MySQL/MariaDB container
 sed -i "s/_MYSQL_DB_NAME_/$MYSQL_DB_CONTAINER_NAME/g" docker-compose.yml
-sed -i "s/_MYSQL_DB_PORT_/$MYSQL_PORT/g" docker-compose.yml
-sed -i "s/_MYSQL_PASSWORD_/$MYSQL_PASSWORD" docker-compose.yml
+sed -i "s/_MYSQL_DB_PORT_/$MYSQL_DB_PORT/g" docker-compose.yml
+sed -i "s/_MYSQL_DB_PASSWORD_/$MYSQL_DB_PASSWORD" docker-compose.yml
 
 # Setting params for RabbitMQ container
 sed -i "s/_RABBIT_MQ_NAME_/$RABBIT_MQ_CONTAINER_NAME/g" docker-compose.yml
@@ -91,14 +91,24 @@ printHeader "Resulting docker-compose.yml (end)"
 echo ""
 
 echo " - Writing generated.env properties"
+
 echo "MONGO_DB_PORT=$MONGO_DB_PORT" > generated.env
-echo "MYSQL_PORT=$MYSQL_PORT" >> generated.env
+echo "MONGO_DB_USER=$MONGO_DB_USER" > generated.env
+echo "MONGO_DB_PASSWORD=$MONGO_DB_PASSWORD" > generated.env
+
+echo "MYSQL_DB_PORT=$MYSQL_DB_PORT" >> generated.env
+echo "MYSQL_DB_USER=$MYSQL_DB_USER" >> generated.env
+echo "MYSQL_DB_PASSWORD=$MYSQL_DB_PASSWORD" >> generated.env
+
 echo "SERVER_WEB_PORT=$SERVER_WEB_PORT" >> generated.env
 echo "SERVER_WEB_API_PORT=$SERVER_WEB_API_PORT" >> generated.env
+
 echo "RABBIT_MQ_D_PORT=$RABBIT_MQ_D_PORT" >> generated.env
 echo "RABBIT_MQ_M_PORT=$RABBIT_MQ_M_PORT" >> generated.env
+
 echo "INFLUX_DB_PORT=$INFLUX_DB_PORT" >> generated.env
 mkdir -p "$WORKSPACE_PATH"
+
 echo "WORKSPACE_PATH=$WORKSPACE_PATH" >> generated.env
 echo ""
 
