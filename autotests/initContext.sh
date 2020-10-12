@@ -54,7 +54,7 @@ RABBIT_MQ_M_PORT=`getFreeRandomPort`
 INFLUX_DB_PORT=`getFreeRandomPort`
 echo " - - Got following ports:"
 echo " - - - MONGO_DB_PORT:       $MONGO_DB_PORT"
-echo " - - - MYSQL_PORT:          $MYSQL_PORT"
+echo " - - - MYSQL_DB_PORT:       $MYSQL_DB_PORT"
 echo " - - - SERVER_WEB_PORT:     $SERVER_WEB_PORT"
 echo " - - - RABBIT_MQ_D_PORT:    $RABBIT_MQ_D_PORT"
 echo " - - - RABBIT_MQ_M_PORT:    $RABBIT_MQ_M_PORT"
@@ -66,13 +66,13 @@ echo " - Updating docker-compose.yml"
 # Setting params for MongoDB container
 sed -i "s/_MONGO_DB_NAME_/$MONGO_DB_CONTAINER_NAME/g" docker-compose.yml
 sed -i "s/_MONGO_DB_PORT_/$MONGO_DB_PORT/g" docker-compose.yml
-sed -i "s/_MONGO_DB_USER_/$MONGO_DB_USER" docker-compose.yml
-sed -i "s/_MONGO_DB_PASSWORD_/$MONGO_DB_PASSWORD" docker-compose.yml
+sed -i "s/_MONGO_DB_USER_/$MONGO_DB_USER/g" docker-compose.yml
+sed -i "s/_MONGO_DB_PASSWORD_/$MONGO_DB_PASSWORD/g" docker-compose.yml
 
 # Setting params for MySQL/MariaDB container
 sed -i "s/_MYSQL_DB_NAME_/$MYSQL_DB_CONTAINER_NAME/g" docker-compose.yml
 sed -i "s/_MYSQL_DB_PORT_/$MYSQL_DB_PORT/g" docker-compose.yml
-sed -i "s/_MYSQL_DB_PASSWORD_/$MYSQL_DB_PASSWORD" docker-compose.yml
+sed -i "s/_MYSQL_DB_PASSWORD_/$MYSQL_DB_PASSWORD/g" docker-compose.yml
 
 # Setting params for RabbitMQ container
 sed -i "s/_RABBIT_MQ_NAME_/$RABBIT_MQ_CONTAINER_NAME/g" docker-compose.yml
@@ -128,7 +128,7 @@ echo ""
 
 echo "Polling MySQL database"
 retriesLeft=25
-mysql -u root -h 127.0.0.1 -P $MYSQL_PORT -pautotestPassword << EOF
+mysql -u root -h 127.0.0.1 -P $MYSQL_DB_PORT -pautotestPassword << EOF
     exit
 EOF
 
@@ -137,7 +137,7 @@ do
     echo " - Retries left: $retriesLeft"
     sleep 10
     retriesLeft=`expr $retriesLeft - 1`
-    mysql -u root -h 127.0.0.1 -P $MYSQL_PORT -pautotestPassword << EOF
+    mysql -u root -h 127.0.0.1 -P $MYSQL_DB_PORT -pautotestPassword << EOF
         exit
 EOF
 done
