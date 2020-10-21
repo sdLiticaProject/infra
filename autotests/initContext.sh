@@ -157,7 +157,7 @@ done
 echo ""
 
 printHeader "Setting up database schema"
-ls -d {$WORKSPACE_PATH}/Database/* | while read sqlName
+ls -d ${WORKSPACE_PATH}/Database/* | while read sqlName
 do 
     echo "Applying SQL migration: $sqlName";
 
