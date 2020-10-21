@@ -2,7 +2,7 @@
 
 
 CONTEXT_SUFFIX=`echo $1 | sed 's/\%2F/_/g'`
-WORKSPACE_PATH="$2/fileStore"
+WORKSPACE_PATH="$2"
 PATH_TO_SRC_ROOT=$3
 
 MONGO_DB_CONTAINER_NAME="mongodb_$CONTEXT_SUFFIX"
@@ -107,7 +107,6 @@ echo "RABBIT_MQ_D_PORT=$RABBIT_MQ_D_PORT" >> generated.env
 echo "RABBIT_MQ_M_PORT=$RABBIT_MQ_M_PORT" >> generated.env
 
 echo "INFLUX_DB_PORT=$INFLUX_DB_PORT" >> generated.env
-mkdir -p "$WORKSPACE_PATH"
 
 echo "WORKSPACE_PATH=$WORKSPACE_PATH" >> generated.env
 echo ""
@@ -158,13 +157,15 @@ done
 echo ""
 
 printHeader "Setting up database schema"
-echo "--- skipped ---"
-# mysql -u root -h 127.0.0.1 -P $MYSQL_PORT -pautotestPassword << EOF
-#     CREATE DATABASE sdcloudAutotest;
-#     use sdcloudAutotest;
-#     source $PATH_TO_SRC_ROOT/SQL/sdcloud-db.sql;
-#     exit
-# EOF
+ls -d {$WORKSPACE_PATH}/Database/* | while read sqlName
+do 
+    echo "Applying SQL migration: $sqlName";
+
+    mysql -u root -h 127.0.0.1 -P $MYSQL_PORT -pautotestPassword << EOF
+        source $sqlName;
+        exit
+EOF
+done
 echo ""
 
 printHeader "Insering test data"
