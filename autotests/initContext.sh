@@ -161,7 +161,7 @@ ls -d ${WORKSPACE_PATH}/Database/* | while read sqlName
 do 
     echo "Applying SQL migration: $sqlName";
 
-    mysql -u root -h 127.0.0.1 -P $MYSQL_PORT -pautotestPassword << EOF
+    mysql -u root -h 127.0.0.1 -P $MYSQL_DB_PORT -pautotestPassword << EOF
         source $sqlName;
         exit
 EOF
