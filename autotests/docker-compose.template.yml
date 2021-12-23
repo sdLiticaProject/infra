@@ -2,7 +2,7 @@ version: '2'
 
 services:
   mongo-_MONGO_DB_NAME_:
-    image: mongo
+    image: mongo:4.4
     restart: always
     container_name: _MONGO_DB_NAME_
     environment:
